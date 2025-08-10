@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Status Lookup</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      margin-top: 40px;
+    }
+    .captcha-img {
+      border: 1px solid #ccc;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Telangana High Court - Case Status</h4>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/" id="caseForm">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="case_type" class="form-label">Case Type</label>
+              <select name="case_type" id="case_type" class="form-select" required>
+                <option value="">-- Select Type --</option>
+                <option value="CA">CA - Civil Appeal</option>
+                <option value="WP">WP - Writ Petition</option>
+                <option value="CRL">CRL - Criminal Case</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="case_number" class="form-label">Case Number</label>
+              <input type="text" name="case_number" id="case_number" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label for="case_year" class="form-label">Filing Year</label>
+              <input type="number" name="case_year" id="case_year" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">CAPTCHA</label><br>
+            <img src="/static/captcha.png" class="captcha-img" alt="CAPTCHA Image">
+            <input type="text" name="captcha" class="form-control mt-2" placeholder="Enter CAPTCHA" required>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success">Fetch Case Details</button>
+          </div>
+        </form>
+
+        {% if result %}
+        <hr>
+        <h5 class="mt-4">Result:</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <tbody>
+              {% for key, value in result.items() %}
+              <tr>
+                <th>{{ key }}</th>
+                <td>{{ value }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="/dashboard" class="btn btn-outline-primary">View Dashboard</a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
